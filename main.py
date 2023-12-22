@@ -37,12 +37,12 @@ class MyWindow(QMainWindow):
       
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)  
-        self.layout_prob_sentence = MplCanvas(self)
-        self.layout_prob_user = MplCanvas(self)
+        # self.layout_prob_sentence = MplCanvas(self)
+        # self.layout_prob_user = MplCanvas(self)
         self.spectrogram_canvas = MplCanvas(self)
-        self.ui.layout_spectogram_2.addWidget(self.spectrogram_canvas)
-        self.ui.layout_prob_sentence_2.addWidget(self.layout_prob_sentence)
-        self.ui.layout_prob_user_2.addWidget(self.layout_prob_user)
+        self.ui.layout_spectogrm.addWidget(self.spectrogram_canvas)
+        # self.ui.layout_prob_sentence_2.addWidget(self.layout_prob_sentence)
+        # self.ui.layout_prob_user_2.addWidget(self.layout_prob_user) 
         
 
 def main():

@@ -1,6 +1,4 @@
-from scipy import signal
-from scipy.signal import gaussian
-from PyQt5.QtCore import QTimer
+
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -43,7 +41,38 @@ class MyWindow(QMainWindow):
         self.ui.layout_spectogrm.addWidget(self.spectrogram_canvas)
         # self.ui.layout_prob_sentence_2.addWidget(self.layout_prob_sentence)
         # self.ui.layout_prob_user_2.addWidget(self.layout_prob_user) 
-        
+    
+        QShortcut(QKeySequence("Ctrl+o"), self).activated.connect(self.read_voice)
+
+    
+    def read_voice(self): # read the voice signals
+        self.file_path , _ = QFileDialog.getOpenFileName(self, "Open file", "~")
+        self.sample_rate, self.original_sig = wavfile.read(self.file_path)
+        self.spectrogram_canvas.axes.clear()
+        self.spectrogram_canvas.axes.specgram(self.original_sig , Fs = self.sample_rate)
+        self.spectrogram_canvas.draw()
+    
+    def calc_voice_spectogram(self): # calculate the spectogram of the voice signal
+        pass
+    
+    def extract_feature_points(self): # get the feature points from the spectogram
+        pass
+    
+    def featurepoints_corrlation(self): #compare between the inpus voice signal and the feature point from other spectograms
+        pass
+    
+    def calc_scores(self): # see how close the input signal and to the 3 sentences or the 8 user voices
+        pass
+    
+    def plot_input_spectogram(self): # just draw the spectogram of the input voice 
+        pass
+    
+    def users_to_acess(self): # update how can access from the users
+        pass
+    
+    def print_acess_or_denied(self): #print if the user is allowed to access or not 
+        pass
+    
 
 def main():
     app = QApplication(sys.argv)

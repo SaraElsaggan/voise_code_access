@@ -487,6 +487,286 @@ QScrollBar::sub-page:vertical
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_9">
+    <item row="0" column="0">
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 20px; /* Adjust the value to control the roundness of the corners */
+    background-color: rgb(226, 241, 255); /* Set the background color */</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="2" column="1">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="8" column="1">
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLabel" name="lbl_access">
+         <property name="text">
+          <string>access</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="horizontalSpacing">
+          <number>100</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>20</number>
+         </property>
+         <item row="5" column="0">
+          <widget class="QLabel" name="lbl_acess_user_6">
+           <property name="text">
+            <string>user 6</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QCheckBox" name="chkBox_user_7">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QCheckBox" name="chkBox_user_3">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="lbl_acess_user_7">
+           <property name="text">
+            <string>user 7</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="lbl_acess_user_3">
+           <property name="text">
+            <string>user 3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="lbl_acess_user_5">
+           <property name="text">
+            <string>user 5</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="lbl_acess_user_4">
+           <property name="text">
+            <string>user 4</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="lbl_acess_user_1">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>user 1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QCheckBox" name="chkBox_user_5">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QCheckBox" name="chkBox_user_4">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QCheckBox" name="chkBox_user_1">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="lbl_acess_user_2">
+           <property name="text">
+            <string>user 2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="chkBox_user_2">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="lbl_acess_user_8">
+           <property name="text">
+            <string>user 8</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QCheckBox" name="chkBox_user_8">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QCheckBox" name="chkBox_user_6">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>choose how can acess:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="6" column="1">
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="btn_record">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(61, 78, 242);</string>
+         </property>
+         <property name="text">
+          <string>start recording</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
     <item row="0" column="1">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -548,6 +828,14 @@ QScrollBar::sub-page:vertical
         </item>
         <item>
          <widget class="QWidget" name="widget" native="true">
+          <property name="styleSheet">
+           <string notr="true">QLabel {
+    border: 2px solid  rgb(61, 78, 242);
+    border-radius: 4px;
+    padding: 0px;
+	
+}</string>
+          </property>
           <layout class="QGridLayout" name="gridLayout_3">
            <item row="1" column="0">
             <widget class="QLabel" name="lbl_sentence_1">
@@ -642,16 +930,24 @@ QScrollBar::sub-page:vertical
         </item>
         <item>
          <widget class="QWidget" name="widget_3" native="true">
+          <property name="styleSheet">
+           <string notr="true">QLabel {
+    border: 2px solid  rgb(61, 78, 242);
+    border-radius: 4px;
+    padding: 0px;
+	
+}</string>
+          </property>
           <layout class="QGridLayout" name="gridLayout_6">
            <item row="2" column="2">
-            <widget class="QLabel" name="lbl_prob_user_23">
+            <widget class="QLabel" name="lbl_prob_user_2">
              <property name="text">
               <string/>
              </property>
             </widget>
            </item>
            <item row="8" column="2">
-            <widget class="QLabel" name="lbl_prob_user_31">
+            <widget class="QLabel" name="lbl_prob_user_8">
              <property name="text">
               <string/>
              </property>
@@ -679,7 +975,7 @@ QScrollBar::sub-page:vertical
             </widget>
            </item>
            <item row="3" column="2">
-            <widget class="QLabel" name="lbl_prob_user_24">
+            <widget class="QLabel" name="lbl_prob_user_3">
              <property name="text">
               <string/>
              </property>
@@ -693,14 +989,14 @@ QScrollBar::sub-page:vertical
             </widget>
            </item>
            <item row="4" column="2">
-            <widget class="QLabel" name="lbl_prob_user_27">
+            <widget class="QLabel" name="lbl_prob_user_4">
              <property name="text">
               <string/>
              </property>
             </widget>
            </item>
            <item row="7" column="2">
-            <widget class="QLabel" name="lbl_prob_user_30">
+            <widget class="QLabel" name="lbl_prob_user_7">
              <property name="text">
               <string/>
              </property>
@@ -728,7 +1024,7 @@ QScrollBar::sub-page:vertical
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QLabel" name="lbl_prob_user_25">
+            <widget class="QLabel" name="lbl_prob_user_1">
              <property name="text">
               <string/>
              </property>
@@ -756,14 +1052,14 @@ QScrollBar::sub-page:vertical
             </widget>
            </item>
            <item row="6" column="2">
-            <widget class="QLabel" name="lbl_prob_user_29">
+            <widget class="QLabel" name="lbl_prob_user_6">
              <property name="text">
               <string/>
              </property>
             </widget>
            </item>
            <item row="5" column="2">
-            <widget class="QLabel" name="lbl_prob_user_28">
+            <widget class="QLabel" name="lbl_prob_user_5">
              <property name="text">
               <string/>
              </property>
@@ -808,286 +1104,6 @@ QScrollBar::sub-page:vertical
       </item>
      </layout>
     </item>
-    <item row="0" column="0">
-     <widget class="QWidget" name="widget_2" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius: 20px; /* Adjust the value to control the roundness of the corners */
-    background-color: rgb(226, 241, 255); /* Set the background color */</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="2" column="1">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="8" column="1">
-        <spacer name="verticalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="7" column="1">
-        <widget class="QLabel" name="lbl_access">
-         <property name="text">
-          <string>access</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="1">
-        <layout class="QGridLayout" name="gridLayout">
-         <property name="horizontalSpacing">
-          <number>100</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>20</number>
-         </property>
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="chkBox_user_1">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QCheckBox" name="chkBox_user_3">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QCheckBox" name="chkBox_user_7">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="lbl_acess_user_6">
-           <property name="text">
-            <string>user 6</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="lbl_acess_user_4">
-           <property name="text">
-            <string>user 4</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="chkBox_user_4">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QCheckBox" name="chkBox_user_2">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QCheckBox" name="chkBox_user_6">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="lbl_acess_user_5">
-           <property name="text">
-            <string>user 5</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QCheckBox" name="chkBox_user_8">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="lbl_acess_user_7">
-           <property name="text">
-            <string>user 7</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="lbl_acess_user_2">
-           <property name="text">
-            <string>user 2</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="lbl_acess_user_1">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>user 1</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="lbl_acess_user_8">
-           <property name="text">
-            <string>user 8</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="lbl_acess_user_3">
-           <property name="text">
-            <string>user 3</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QCheckBox" name="chkBox_user_5">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="3" column="0">
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>choose how can acess:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <spacer name="verticalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="4" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="6" column="1">
-        <spacer name="verticalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="5" column="1">
-        <widget class="QPushButton" name="btn_record">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(61, 78, 242);</string>
-         </property>
-         <property name="text">
-          <string>start recording</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -1102,6 +1118,24 @@ QScrollBar::sub-page:vertical
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>chkBox_user_1</tabstop>
+  <tabstop>chkBox_user_2</tabstop>
+  <tabstop>chkBox_user_3</tabstop>
+  <tabstop>chkBox_user_4</tabstop>
+  <tabstop>chkBox_user_5</tabstop>
+  <tabstop>chkBox_user_6</tabstop>
+  <tabstop>chkBox_user_7</tabstop>
+  <tabstop>chkBox_user_8</tabstop>
+  <tabstop>chkBox_user_1</tabstop>
+  <tabstop>chkBox_user_2</tabstop>
+  <tabstop>chkBox_user_3</tabstop>
+  <tabstop>chkBox_user_4</tabstop>
+  <tabstop>chkBox_user_5</tabstop>
+  <tabstop>chkBox_user_6</tabstop>
+  <tabstop>chkBox_user_7</tabstop>
+  <tabstop>chkBox_user_8</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

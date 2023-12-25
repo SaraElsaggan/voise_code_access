@@ -1,3 +1,4 @@
+from PyQt5.QtCore import Qt
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -17,6 +18,7 @@ import pyqtgraph as pg
 from scipy.fftpack import rfft, rfftfreq, irfft , fft , fftfreq
 from PyQt5.QtCore import pyqtSlot
 import sounddevice as sd
+import librosa
 
 
 class MplCanvas(FigureCanvasQTAgg):
@@ -41,19 +43,37 @@ class MyWindow(QMainWindow):
         self.ui.layout_spectogrm.addWidget(self.spectrogram_canvas)
         # self.ui.layout_prob_sentence_2.addWidget(self.layout_prob_sentence)
         # self.ui.layout_prob_user_2.addWidget(self.layout_prob_user) 
-    
-        QShortcut(QKeySequence("Ctrl+o"), self).activated.connect(self.read_voice)
+        
+        self.ui.btn_record.clicked.connect(self.record_input_voice)
+        
+        self.input_fs = 44100
+        self.access = False
+        self.who_can_access = []
+        
+        for i in range(8):
+            user_checkbox = getattr(self.ui, f"chkBox_user_{i+1}")
+            # user_checkbox.stateChanged.connect(lambda i=i: self.users_to_acess(f"user_{i+1}", user_checkbox.isChecked()))
+            user_checkbox.stateChanged.connect(lambda state, user=f"user_{i+1}": self.users_to_acess(user, state == Qt.Checked))
+
+
+
+        QShortcut(QKeySequence("Ctrl+r"), self).activated.connect(self.record_input_voice)
 
     
-    def read_voice(self): # read the voice signals
-        self.file_path , _ = QFileDialog.getOpenFileName(self, "Open file", "~")
-        self.sample_rate, self.original_sig = wavfile.read(self.file_path)
-        self.spectrogram_canvas.axes.clear()
-        self.spectrogram_canvas.axes.specgram(self.original_sig , Fs = self.sample_rate)
-        self.spectrogram_canvas.draw()
+    def record_input_voice(self): # read the voice signals
+        duration = 5 
+        self.input_audio = sd.rec(int(duration * self.input_fs), samplerate=self.input_fs, channels=1, dtype=np.int16)
+        sd.wait()
+        self.plot_spectogram()
+        self.access = False # here i will use the model to predict if the acess is denied or not
+        self.print_acess_or_denied()
     
-    def calc_voice_spectogram(self): # calculate the spectogram of the voice signal
-        pass
+    def plot_spectogram(self): # draw the spectogram of the input voice 
+        self.spectrogram_canvas.axes.clear()
+        self.spectrogram_canvas.axes.specgram(self.input_audio[:, 0], Fs=self.input_fs)
+        self.spectrogram_canvas.draw()
+        
+        
     
     def extract_feature_points(self): # get the feature points from the spectogram
         pass
@@ -64,14 +84,25 @@ class MyWindow(QMainWindow):
     def calc_scores(self): # see how close the input signal and to the 3 sentences or the 8 user voices
         pass
     
-    def plot_input_spectogram(self): # just draw the spectogram of the input voice 
-        pass
     
-    def users_to_acess(self): # update how can access from the users
-        pass
-    
-    def print_acess_or_denied(self): #print if the user is allowed to access or not 
-        pass
+    def users_to_acess(self , user , ischecked): # update how can access from the users 
+        print(ischecked)
+        if ischecked:
+            self.who_can_access.append(user)
+        else:
+            self.who_can_access.remove(user)
+            
+        print(self.who_can_access)
+
+
+    def print_acess_or_denied(self ): #print if the user is allowed to access or not 
+        if self.access :
+            self.ui.lbl_access.setText('<font color="green">Access Granted</font>')
+        else:
+            self.ui.lbl_access.setText('<font color="red">Access Denied</font>')
+            
+
+        
     
 
 def main():

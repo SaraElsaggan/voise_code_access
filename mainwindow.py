@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1291, 796)
+        MainWindow.resize(1309, 796)
         MainWindow.setStyleSheet("/*Copyright (c) DevSec Studio. All rights reserved.\n"
 "\n"
 "MIT License\n"
@@ -496,20 +496,30 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.widget_2.sizePolicy().hasHeightForWidth())
         self.widget_2.setSizePolicy(sizePolicy)
         self.widget_2.setStyleSheet("border-radius: 20px; /* Adjust the value to control the roundness of the corners */\n"
-"    background-color: rgb(226, 241, 255); /* Set the background color */")
+"background-color: rgb(226, 241, 255); /* Set the background color */\n"
+"")
         self.widget_2.setObjectName("widget_2")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.widget_2)
         self.gridLayout_4.setObjectName("gridLayout_4")
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_4.addItem(spacerItem, 2, 1, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_4.addItem(spacerItem1, 8, 1, 1, 1)
+        self.gridLayout_4.addItem(spacerItem, 0, 1, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_4.addItem(spacerItem1, 3, 0, 1, 1)
         self.lbl_access = QtWidgets.QLabel(self.widget_2)
         self.lbl_access.setAlignment(QtCore.Qt.AlignCenter)
         self.lbl_access.setObjectName("lbl_access")
-        self.gridLayout_4.addWidget(self.lbl_access, 7, 1, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_4.addItem(spacerItem2, 3, 2, 1, 1)
+        self.gridLayout_4.addWidget(self.lbl_access, 9, 1, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_4.addItem(spacerItem2, 2, 1, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_4.addItem(spacerItem3, 3, 2, 1, 1)
+        self.label = QtWidgets.QLabel(self.widget_2)
+        self.label.setObjectName("label")
+        self.gridLayout_4.addWidget(self.label, 1, 1, 1, 1)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 29, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_4.addItem(spacerItem4, 8, 1, 1, 1)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_4.addItem(spacerItem5, 10, 1, 1, 1)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setHorizontalSpacing(100)
         self.gridLayout.setVerticalSpacing(20)
@@ -572,21 +582,47 @@ class Ui_MainWindow(object):
         self.chkBox_user_6.setObjectName("chkBox_user_6")
         self.gridLayout.addWidget(self.chkBox_user_6, 5, 1, 1, 1)
         self.gridLayout_4.addLayout(self.gridLayout, 3, 1, 1, 1)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_4.addItem(spacerItem3, 3, 0, 1, 1)
-        self.label = QtWidgets.QLabel(self.widget_2)
-        self.label.setObjectName("label")
-        self.gridLayout_4.addWidget(self.label, 1, 1, 1, 1)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_4.addItem(spacerItem4, 0, 1, 1, 1)
-        spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_4.addItem(spacerItem5, 4, 1, 1, 1)
         spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_4.addItem(spacerItem6, 6, 1, 1, 1)
+        self.gridLayout_4.addItem(spacerItem6, 5, 1, 1, 1)
         self.btn_record = QtWidgets.QPushButton(self.widget_2)
-        self.btn_record.setStyleSheet("background-color: rgb(61, 78, 242);")
+        self.btn_record.setStyleSheet("QPushButton\n"
+"{\n"
+"    background-color: #5c55e9;\n"
+"    color: #fff;\n"
+"    font-size: 20px;\n"
+"    font-weight: bold;\n"
+"    border-top-right-radius: 15px;\n"
+"    border-top-left-radius: 0px;\n"
+"    border-bottom-right-radius: 0px;\n"
+"    border-bottom-left-radius: 15px;\n"
+"    padding: 10px;\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton::disabled\n"
+"{\n"
+"    background-color: #5c5c5c;\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton::hover\n"
+"{\n"
+"    background-color: #5564f2;\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton::pressed\n"
+"{\n"
+"    background-color: #3d4ef2;\n"
+"\n"
+"}\n"
+"\n"
+"")
         self.btn_record.setObjectName("btn_record")
-        self.gridLayout_4.addWidget(self.btn_record, 5, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.btn_record, 7, 1, 1, 1)
         self.gridLayout_9.addWidget(self.widget_2, 0, 0, 1, 1)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
@@ -727,7 +763,7 @@ class Ui_MainWindow(object):
         self.gridLayout_9.addLayout(self.verticalLayout, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1291, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1309, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -756,6 +792,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.lbl_access.setText(_translate("MainWindow", "access"))
+        self.label.setText(_translate("MainWindow", "choose how can acess:"))
         self.lbl_acess_user_6.setText(_translate("MainWindow", "user 6"))
         self.lbl_acess_user_7.setText(_translate("MainWindow", "user 7"))
         self.lbl_acess_user_3.setText(_translate("MainWindow", "user 3"))
@@ -764,7 +801,6 @@ class Ui_MainWindow(object):
         self.lbl_acess_user_1.setText(_translate("MainWindow", "user 1"))
         self.lbl_acess_user_2.setText(_translate("MainWindow", "user 2"))
         self.lbl_acess_user_8.setText(_translate("MainWindow", "user 8"))
-        self.label.setText(_translate("MainWindow", "choose how can acess:"))
         self.btn_record.setText(_translate("MainWindow", "start recording"))
         self.lbl_sentence_1.setText(_translate("MainWindow", "Open middle door"))
         self.label_4.setText(_translate("MainWindow", "sentence"))

@@ -1,4 +1,4 @@
-from scipy.signal import correlate2d
+from scipy.signal import correlate2d , stft
 from sklearn import preprocessing
 import os
 from PyQt5.QtCore import Qt
@@ -40,17 +40,11 @@ class MyWindow(QMainWindow):
       
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)  
-        # self.layout_prob_sentence = MplCanvas(self)
-        # self.layout_prob_user = MplCanvas(self)
         self.spectrogram_canvas = MplCanvas(self)
         self.ui.layout_spectogrm.addWidget(self.spectrogram_canvas)
-        # self.ui.layout_prob_sentence_2.addWidget(self.layout_prob_sentence)
-        # self.ui.layout_prob_user_2.addWidget(self.layout_prob_user) 
-        
         self.ui.btn_record.clicked.connect(self.record_input_voice)
         
         self.input_fs = 22050
-        # self.input_fs = 44100
         self.access = False
         self.who_can_access = []
         
@@ -60,21 +54,20 @@ class MyWindow(QMainWindow):
             user_checkbox.stateChanged.connect(lambda state, user=f"user_{i+1}": self.users_to_acess(user, state == Qt.Checked))
 
         self.sentenses_mfcc = {}
+        self.sentenses_stft = {}
         # relative_path = os.path.join("project", "voices")
 
         # # Construct the absolute path
         # absolute_path = os.path.abspath(relative_path).replace("\\", "/")
         # self.voice_folder_path = absolute_path
         self.voice_folder_path = "C:/Users/Sara/Desktop/sara_voice_code_access/voices"
-        print(self.voice_folder_path)
+        # print(self.voice_folder_path)
         for i,  file_name in enumerate(os.listdir(self.voice_folder_path)):
             file_path = os.path.join(self.voice_folder_path, file_name)
             audio_data , sampleRate = librosa.load(file_path)
-            print(sampleRate*2)
-            # mfcc = self.extract_feature_points(audio_data , sampleRate*2) # multblied by 2 coz the return sample rate of the audio is 22050 
-            mfcc = self.extract_feature_points(audio_data , sampleRate)
-            self.sentenses_mfcc[file_name] = mfcc
-            print(f"file{i} :{mfcc.shape}")
+            print(f"file sample rate{sampleRate}")
+            stft = self.extract_feature_points(audio_data , sampleRate)
+            self.sentenses_stft[file_name] = stft
             
 
 
@@ -84,17 +77,14 @@ class MyWindow(QMainWindow):
 
     
     def record_input_voice(self): # read the voice signals
-        # return the audio_data
         duration = 5
         input_audio = sd.rec(int(duration * self.input_fs), samplerate=self.input_fs, channels=1, dtype=np.int16)
 
         self.print_acess_or_denied()
         sd.wait()
         self.plot_spectogram(input_audio)
-        mfcc = self.extract_feature_points(input_audio , self.input_fs)
-        print(f"input :{mfcc.shape}")
-        
-        self.featurepoints_corrlation(mfcc)
+        stft = self.extract_feature_points(input_audio , self.input_fs)
+        # self.featurepoints_corrlation(stft)
 
 
         
@@ -113,34 +103,42 @@ class MyWindow(QMainWindow):
         
     '''mode 1 using mfcc'''
     def extract_feature_points(self , audio_data , sample_rate): # get the feature points from the spectogram
-        audio_data = audio_data.astype(np.float32)
-        # mfcc = np.mean(librosa.feature.mfcc(y = audio_data , sr = sample_rate , n_mfcc=50), axis=0)
-        mfcc = (librosa.feature.mfcc(y=audio_data.flatten(), sr=sample_rate, n_mfcc=50))
+        #______________this is for mfcc and normlization____________________
+        # audio_data = audio_data.astype(np.float32)
+        # # mfcc = np.mean(librosa.feature.mfcc(y = audio_data , sr = sample_rate , n_mfcc=50), axis=0)
+        # mfcc = (librosa.feature.mfcc(y=audio_data.flatten(), sr=sample_rate, n_mfcc=50))
 
-        mfcc = mfcc.T
-        scaler = preprocessing.StandardScaler()
-        mfcc_normalized = scaler.fit_transform(mfcc)
+        # mfcc = mfcc.T
+        # scaler = preprocessing.StandardScaler()
+        # mfcc_normalized = scaler.fit_transform(mfcc)
 
-        # Transpose the matrix back to the original shape
-        mfcc_normalized = mfcc_normalized.T
+        # # Transpose the matrix back to the original shape
+        # mfcc_normalized = mfcc_normalized.T
 
-        # mfcc = mfcc.flatten()
-        # print(f"")
+        # # mfcc = mfcc.flatten()
+        # # print(f"")
 
-        return mfcc_normalized.flatten()
-        # pass
+        # return mfcc_normalized.flatten()
+        #______________this is for mfcc and normlization____________________
+
+        print(f" stft{stft(audio_data , sample_rate,)}")
+        return (stft(audio_data , sample_rate,))
+        
+
+
+        pass
     
     def featurepoints_corrlation(self , mfcc ): #compare between the inpus voice signal and the feature point from other spectograms
         # correlation = np.corrcoef(self.sentenses_mfcc['test.wav'], mfcc)[0, 1] 
         # print(f"correlation{correlation}")
         
         
-        correlation = np.corrcoef(self.sentenses_mfcc['open_middle_door.wav'], mfcc)[0, 1] 
-        print(f"correlation{correlation}")
-        correlation = np.corrcoef(self.sentenses_mfcc['grant_me_access.wav'], mfcc)[0, 1] 
-        print(f"correlation{correlation}")
-        correlation = np.corrcoef(self.sentenses_mfcc['unlock_the_gate.wav'], mfcc)[0, 1] 
-        print(f"correlation{correlation}") # till here not cross corrlation
+        # correlation = np.corrcoef(self.sentenses_mfcc['open_middle_door.wav'], mfcc)[0, 1] 
+        # print(f"correlation{correlation}")
+        # correlation = np.corrcoef(self.sentenses_mfcc['grant_me_access.wav'], mfcc)[0, 1] 
+        # print(f"correlation{correlation}")
+        # correlation = np.corrcoef(self.sentenses_mfcc['unlock_the_gate.wav'], mfcc)[0, 1] 
+        # print(f"correlation{correlation}") # till here not cross corrlation
 
 
 

@@ -1,3 +1,5 @@
+from scipy.signal import correlate2d
+from sklearn import preprocessing
 import os
 from PyQt5.QtCore import Qt
 
@@ -58,8 +60,13 @@ class MyWindow(QMainWindow):
             user_checkbox.stateChanged.connect(lambda state, user=f"user_{i+1}": self.users_to_acess(user, state == Qt.Checked))
 
         self.sentenses_mfcc = {}
+        # relative_path = os.path.join("project", "voices")
 
+        # # Construct the absolute path
+        # absolute_path = os.path.abspath(relative_path).replace("\\", "/")
+        # self.voice_folder_path = absolute_path
         self.voice_folder_path = "C:/Users/Sara/Desktop/sara_voice_code_access/voices"
+        print(self.voice_folder_path)
         for i,  file_name in enumerate(os.listdir(self.voice_folder_path)):
             file_path = os.path.join(self.voice_folder_path, file_name)
             audio_data , sampleRate = librosa.load(file_path)
@@ -103,24 +110,58 @@ class MyWindow(QMainWindow):
         self.spectrogram_canvas.draw()
         
         
-    
+        
+    '''mode 1 using mfcc'''
     def extract_feature_points(self , audio_data , sample_rate): # get the feature points from the spectogram
         audio_data = audio_data.astype(np.float32)
         # mfcc = np.mean(librosa.feature.mfcc(y = audio_data , sr = sample_rate , n_mfcc=50), axis=0)
         mfcc = (librosa.feature.mfcc(y=audio_data.flatten(), sr=sample_rate, n_mfcc=50))
-        mfcc = mfcc.flatten()
+
+        mfcc = mfcc.T
+        scaler = preprocessing.StandardScaler()
+        mfcc_normalized = scaler.fit_transform(mfcc)
+
+        # Transpose the matrix back to the original shape
+        mfcc_normalized = mfcc_normalized.T
+
+        # mfcc = mfcc.flatten()
         # print(f"")
 
-        return mfcc
+        return mfcc_normalized.flatten()
         # pass
     
     def featurepoints_corrlation(self , mfcc ): #compare between the inpus voice signal and the feature point from other spectograms
-        # correlation = np.corrcoef(self.sentenses_mfcc['grant_me_access.wav'], self.sentenses_mfcc['grant_me_access.wav'])[0, 1]
-        correlation = np.corrcoef(self.sentenses_mfcc['grant_me_access.wav'], mfcc)[0, 1]
+        # correlation = np.corrcoef(self.sentenses_mfcc['test.wav'], mfcc)[0, 1] 
+        # print(f"correlation{correlation}")
+        
+        
+        correlation = np.corrcoef(self.sentenses_mfcc['open_middle_door.wav'], mfcc)[0, 1] 
         print(f"correlation{correlation}")
+        correlation = np.corrcoef(self.sentenses_mfcc['grant_me_access.wav'], mfcc)[0, 1] 
+        print(f"correlation{correlation}")
+        correlation = np.corrcoef(self.sentenses_mfcc['unlock_the_gate.wav'], mfcc)[0, 1] 
+        print(f"correlation{correlation}") # till here not cross corrlation
+
+
+
+
+
+        # correlation = np.corrcoef(self.sentenses_mfcc['grant_me_access.wav'], self.sentenses_mfcc['grant_me_access.wav'])[0, 1]
+        # correlation_1 = np.correlate(self.sentenses_mfcc['grant_me_access.wav'], mfcc, mode='full')  #crosse corr
+        # correlation = correlate2d(self.sentenses_mfcc['grant_me_access.wav'], mfcc, mode='full') #crosse corr
+        # correlation = np.correlate(self.sentenses_mfcc['grant_me_access.wav'], mfcc, mode='full') #crosse corr
+        # max_corr_index = np.argmax(correlation)
+        
+        # # The similarity score is the maximum value of the cross-correlation
+        # similarity_score = correlation[max_corr_index]
+
+        # print(correlation_1 == correlation)
+        # correlation = np.corrcoef(self.sentenses_mfcc['grant_me_access.wav'], mfcc)[0, 1]
+        # print(f"correlation{correlation}")
+        # print(f"correlation{correlation}")
         # print(correlation)
 
-        # pass
+        pass
     
     def calc_scores(self): # see how close the input signal and to the 3 sentences or the 8 user voices
         pass

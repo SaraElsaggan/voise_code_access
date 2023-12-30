@@ -582,22 +582,6 @@ background-color: rgb(226, 241, 255); /* Set the background color */
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
-        <spacer name="verticalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>29</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="10" column="1">
         <spacer name="verticalSpacer_6">
          <property name="orientation">
@@ -613,6 +597,51 @@ background-color: rgb(226, 241, 255); /* Set the background color */
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="7" column="1">
+        <widget class="QPushButton" name="btn_record">
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+	background-color: #5c55e9;
+	color: #fff;
+	font-size: 20px;
+	font-weight: bold;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 15px;
+	padding: 10px;
+
+}
+
+
+QPushButton::disabled
+{
+	background-color: #5c5c5c;
+
+}
+
+
+QPushButton::hover
+{
+	background-color: #5564f2;
+
+}
+
+
+QPushButton::pressed
+{
+	background-color: #3d4ef2;
+
+}
+
+</string>
+         </property>
+         <property name="text">
+          <string>start recording</string>
+         </property>
+        </widget>
        </item>
        <item row="3" column="1">
         <layout class="QGridLayout" name="gridLayout">
@@ -750,55 +779,26 @@ background-color: rgb(226, 241, 255); /* Set the background color */
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>90</height>
           </size>
          </property>
         </spacer>
        </item>
-       <item row="7" column="1">
-        <widget class="QPushButton" name="btn_record">
-         <property name="styleSheet">
-          <string notr="true">QPushButton
-{
-	background-color: #5c55e9;
-	color: #fff;
-	font-size: 20px;
-	font-weight: bold;
-	border-top-right-radius: 15px;
-	border-top-left-radius: 0px;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 15px;
-	padding: 10px;
-
-}
-
-
-QPushButton::disabled
-{
-	background-color: #5c5c5c;
-
-}
-
-
-QPushButton::hover
-{
-	background-color: #5564f2;
-
-}
-
-
-QPushButton::pressed
-{
-	background-color: #3d4ef2;
-
-}
-
-</string>
+       <item row="8" column="1">
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-         <property name="text">
-          <string>start recording</string>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -882,6 +882,9 @@ QPushButton::pressed
            </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_4">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(221, 245, 255);</string>
+             </property>
              <property name="text">
               <string>sentence</string>
              </property>
@@ -917,6 +920,9 @@ QPushButton::pressed
            </item>
            <item row="0" column="2">
             <widget class="QLabel" name="label_3">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(221, 245, 255);</string>
+             </property>
              <property name="text">
               <string>Probability</string>
              </property>
@@ -1019,6 +1025,9 @@ QPushButton::pressed
            </item>
            <item row="0" column="2">
             <widget class="QLabel" name="label_10">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(221, 245, 255);</string>
+             </property>
              <property name="text">
               <string>Probability</string>
              </property>
@@ -1054,6 +1063,9 @@ QPushButton::pressed
            </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_9">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(221, 245, 255);</string>
+             </property>
              <property name="text">
               <string>user</string>
              </property>

@@ -143,7 +143,7 @@ class MyWindow(QMainWindow):
         # correlation = np.corrcoef(self.sentenses_mfcc['sara_unlock_the_gate_1.wav'], mfcc)[0, 1] 
         # print(f" correlation  {correlation}") # till here not cross corrlation
 
-        
+        max = 0
         for sentence_name, sentence_mfcc in self.sentenses_mfcc.items():
             correlation = np.correlate(sentence_mfcc, mfcc, mode='full')
             max_corr_index = np.argmax(correlation)
@@ -152,8 +152,12 @@ class MyWindow(QMainWindow):
             # The similarity score is the maximum value of the cross-correlation
             similarity_score = correlation[max_corr_index]
             probability_score = 1 / (1 + np.exp(-correlation))
+            if similarity_score > max:
+                max = similarity_score
+                which = sentence_name
             # print(f"Probability score for {sentence_name}: {probability_score}")
             print(f"cross corrlation  {sentence_name}: {similarity_score}")
+        print(f"max   {max} , who {which}")
         print("_________")
 
 

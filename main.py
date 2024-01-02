@@ -56,7 +56,7 @@ class MyWindow(QMainWindow):
         self.sentenses_mfcc = {}
         self.sentenses_stft = {}
 
-        self.voice_folder_path = "C:/Users/Sara/Desktop/sara_voice_code_access/voices"
+        self.voice_folder_path = "./voices"
 
         for i,  file_name in enumerate(os.listdir(self.voice_folder_path)):
             file_path = os.path.join(self.voice_folder_path, file_name)
@@ -146,11 +146,14 @@ class MyWindow(QMainWindow):
         max = 0
         for sentence_name, sentence_mfcc in self.sentenses_mfcc.items():
             correlation = np.correlate(sentence_mfcc, mfcc, mode='full')
+            correlation_ = np.correlate(sentence_mfcc, self.sentenses_mfcc[sentence_name], mode='full')
             max_corr_index = np.argmax(correlation)
+            max_corr_index_ = np.argmax(correlation_)
             # normalized_correlation = zscore(correlation)
 
             # The similarity score is the maximum value of the cross-correlation
-            similarity_score = correlation[max_corr_index]
+            similarity_score = correlation_[max_corr_index_] 
+            similarity_score = correlation[max_corr_index] / correlation_[max_corr_index_]
             probability_score = 1 / (1 + np.exp(-correlation))
             if similarity_score > max:
                 max = similarity_score

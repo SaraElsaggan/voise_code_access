@@ -49,29 +49,80 @@ class MyWindow(QMainWindow):
         self.access = False
         self.who_can_access = []
         
-        for i in range(8):
-            user_checkbox = getattr(self.ui, f"chkBox_user_{i+1}")
-            user_checkbox.stateChanged.connect(lambda state, user=f"user_{i+1}": self.users_to_acess(user, state == Qt.Checked))
-
+       
         self.sentenses_mfcc = {}
-        self.sentenses_stft = {}
+        
 
-        self.voice_folder_path = "./voices"
+        # self.mfcc_open_middle_door = {}
+        # self.mfcc_unlock_the_gate = {}
+        # self.mfcc_grant_me_access = {}
+        
+        # self.mfcc_sara = {}
+        # self.mfcc_reem = {}
+        # self.mfcc_yasmeen = {}
+        # self.mfcc_amir = {}
+        # self.mfcc_hesham = {}
+        # self.mfcc_mahmoud = {}
+        # self.mfcc_ahmed = {}
+        # self.mfcc_osama = {}
 
-        for i,  file_name in enumerate(os.listdir(self.voice_folder_path)):
-            file_path = os.path.join(self.voice_folder_path, file_name)
-            audio_data , sampleRate = librosa.load(file_path)
-            mfcc = self.extract_feature_points(audio_data , sampleRate)
-            self.sentenses_mfcc[file_name] = mfcc
-            print(f"file{i} :{mfcc.shape}")
+
+        # self.folder_path_open_midlle_door = "./open_middle_door"
+        # self.folder_path_unlock_the_gate = "./unlock_the_gate"
+        # self.folder_path_grant_me_access = "./grant_me_access"
+
+        # self.folder_path_sara = "./sara"
+        # self.folder_path_reem = "./reem"
+        # self.folder_path_yasmeen = "./yasmeen"
+        # self.folder_path_osama = "./osama"
+        # self.folder_path_hesham = "./hesham"
+        # self.folder_path_mahmoud = "./mahmoud"
+        # self.folder_path_ahmed = "./ahmed"
+        # self.folder_path_amir = "./amir"
+
+        self.sentense_mfcc = []
+        self.user_mfcc = []
+        
+        self.sentenses = ["open_middle_door" , "unlock_the_gate" ,"grant_me_access"]
+        self.users = [ "sara" , "reem" , "yasmeen" , "amir" , "osama" , "hesham" , "mahmoud" , "ahmed"  ]
+
+        for user in self.users:
+            user_checkbox = getattr(self.ui, f"chkBox_{user}")
+            user_checkbox.stateChanged.connect(lambda state, user=f"{user}": self.users_to_access(user, state == Qt.Checked))
+
+        # for i,  file_name in enumerate(os.listdir(self.voice_folder_path)):
+        #     file_path = os.path.join(self.voice_folder_path, file_name)
+        #     audio_data , sampleRate = librosa.load(file_path)
+        #     mfcc = self.extract_feature_points(audio_data , sampleRate)
+        #     self.sentenses_mfcc[file_name] = mfcc
+        #     print(f"file{i} :{mfcc.shape}")
             
-        for i,  file_name in enumerate(os.listdir(self.voice_folder_path)):
-            file_path = os.path.join(self.voice_folder_path, file_name)
-            audio_data , sampleRate = librosa.load(file_path)
-            stft = self.calculate_stft(audio_data , sampleRate)
-            self.sentenses_stft[file_name] = stft
-            # print(f"file{i} :{stft.shape}")
-            
+        for i ,  sentense_folder in enumerate(self.sentenses)  :
+            folder_path = f"./{sentense_folder}"
+            self.sentense_mfcc.append({sentense_folder : {}})
+            for j , file_name in enumerate(os.listdir(folder_path)):
+                file_path = os.path.join(folder_path, file_name)
+                audio_data , sample_rate = librosa.load(file_path)
+                mfcc = self.extract_feature_points(audio_data , sample_rate)
+                # dict = getattr(self , f"mfcc_{sentense_folder}")
+                # dict[file_name] = mfcc
+                self.sentense_mfcc[i][sentense_folder][f"{file_name.split('_')[0]}_{j}"] = mfcc
+                # print(f"file :{file_name}")
+                # print(f"file_name: {file_name}, {mfcc}")
+                
+            print(self.sentense_mfcc)
+        
+        
+        
+        for i , user_folder in enumerate(self.users):
+            folder_path = f"./{user_folder}"
+            self.user_mfcc.append({user_folder:{}})
+            for j , file_name in enumerate(os.listdir(folder_path)):
+                file_path = os.path.join(folder_path , file_name)
+                audio_data , sample_rate = librosa.load(file_path)
+                mfcc = self.extract_feature_points(audio_data , sample_rate)
+                x = file_name.split('_')
+                self.user_mfcc[i][user_folder][f"{file_name.split('_')[1]}_{j}"] = mfcc
 
 
 
@@ -83,24 +134,33 @@ class MyWindow(QMainWindow):
         duration = 2
         input_audio = sd.rec(int(duration * self.input_fs), samplerate=self.input_fs, channels=1, dtype=np.int16)
 
-        # self.print_acess_or_denied()
+        # self.print_access_or_denied()
         sd.wait()
         self.plot_spectogram(input_audio)
         
         # get mfcc 
         mfcc = self.extract_feature_points(input_audio , self.input_fs)
         print(f"input mfcc :{mfcc.shape}")
-        self.featurepoints_corrlation(mfcc)
+        sent_prob = self.featurepoints_corrlation_for_sentences(mfcc)
+        user_prob = self.featurepoints_corrlation_for_users(mfcc)
         
-        # get stft 
-        stft = self.calculate_stft(input_audio.flatten() , self.input_fs)
-        print(f"input stft {stft}")
-        self.calculate_stft_dot_product(stft)
-
+        max_socre_sent , sent = self.get_height_score_from_dict(sent_prob)
+        max_socre_user , who = self.get_height_score_from_dict(user_prob)
+        
+        self.print_access_or_denied(max_socre_sent, sent ,  max_socre_user ,who )
+        
+        # if max_socre_sent > 0.35 and max_socre_user > 0.35:
+            
+            
+        
+        
+        self.print_sentense_scores(sent_prob , user_prob)
+     
+        
 
         
-        self.access = True  # here i will use the model to predict if the acess is denied or not
-        # self.print_acess_or_denied()
+        self.access = True  # here i will use the model to predict if the access is denied or not
+        # self.print_access_or_denied()
         
         return input_audio
     
@@ -131,7 +191,7 @@ class MyWindow(QMainWindow):
         return mfcc_normalized.flatten()
         # pass
     
-    def featurepoints_corrlation(self , mfcc ): #compare between the inpus voice signal and the feature point from other spectograms
+    def featurepoints_corrlation_for_sentences(self , input_mfcc ): #compare between the inpus voice signal and the feature point from other spectograms
         # correlation = np.corrcoef(self.sentenses_mfcc['test.wav'], mfcc)[0, 1] 
         # print(f"correlation{correlation}")
         
@@ -143,76 +203,132 @@ class MyWindow(QMainWindow):
         # correlation = np.corrcoef(self.sentenses_mfcc['sara_unlock_the_gate_1.wav'], mfcc)[0, 1] 
         # print(f" correlation  {correlation}") # till here not cross corrlation
 
-        max = 0
-        for sentence_name, sentence_mfcc in self.sentenses_mfcc.items():
-            correlation = np.correlate(sentence_mfcc, mfcc, mode='full')
-            correlation_ = np.correlate(sentence_mfcc, self.sentenses_mfcc[sentence_name], mode='full')
-            max_corr_index = np.argmax(correlation)
-            max_corr_index_ = np.argmax(correlation_)
-            # normalized_correlation = zscore(correlation)
+        # max = 0
+        # for sentence_name, sentence_mfcc in self.sentenses_mfcc.items():
+        #     correlation = np.correlate(sentence_mfcc, mfcc, mode='full')
+        #     correlation_ = np.correlate(sentence_mfcc, self.sentenses_mfcc[sentence_name], mode='full')
+        #     max_corr_index = np.argmax(correlation)
+        #     max_corr_index_ = np.argmax(correlation_)
+        #     # normalized_correlation = zscore(correlation)
 
-            # The similarity score is the maximum value of the cross-correlation
-            similarity_score = correlation_[max_corr_index_] 
-            similarity_score = correlation[max_corr_index] / correlation_[max_corr_index_]
-            probability_score = 1 / (1 + np.exp(-correlation))
-            if similarity_score > max:
-                max = similarity_score
-                which = sentence_name
-            # print(f"Probability score for {sentence_name}: {probability_score}")
-            print(f"cross corrlation  {sentence_name}: {similarity_score}")
-        print(f"max   {max} , who {which}")
-        print("_________")
+        #     # The similarity score is the maximum value of the cross-correlation
+        #     similarity_score = correlation_[max_corr_index_] 
+        #     similarity_score = correlation[max_corr_index] / correlation_[max_corr_index_]
+        #     probability_score = 1 / (1 + np.exp(-correlation))
+        #     if similarity_score > max:
+        #         max = similarity_score
+        #         which = sentence_name
+        #     # print(f"Probability score for {sentence_name}: {probability_score}")
+        #     print(f"cross corrlation  {sentence_name}: {similarity_score}")
+        # print(f"max   {max} , who {which}")
+        # print("_________")
+        max_corr_dict = {}
+        avg = 0
+        tot_corr = 0
+        num = 0
+        for i ,sentense in enumerate(self.sentense_mfcc):
+            max_corr_for_each_sent = 0
+            for user , mfcc in sentense[self.sentenses[i]].items():
+                num += 1
+                # print(user)
+                corr_arr = np.correlate(input_mfcc, mfcc, mode='full')
+                max_corr_index = np.argmax(corr_arr)
+                corr = corr_arr[max_corr_index]
+                
+                corr_arr__ = np.correlate(mfcc, mfcc, mode='full')
+                max_corr_index__ = np.argmax(corr_arr__)
+                corr__ = corr_arr__[max_corr_index__]
+                percentage_corr = corr/corr__
+                
+                tot_corr += percentage_corr
+                
+                if percentage_corr > max_corr_for_each_sent:
+                    max_corr_for_each_sent = percentage_corr
 
+                print(f"{sentense.keys()} :{user} : {percentage_corr}")
+                # print(f"{sentense.keys()} :{user} : {corr__}")
+                # print(f"{sentense.keys()} :{user} : {corr}")
+            max_corr_dict[f"{list(sentense.keys())[0]}"] = max_corr_for_each_sent
 
+            # print(f":{user} : {tot_corr / num}")
+            print(f"max = {max_corr_for_each_sent}")
+            print("_________")
+        print(max_corr_dict)
+        for x , y in max_corr_dict.items():
+            print(x)
+            print(y)
+                
+       
+        return max_corr_dict
+    
+    def featurepoints_corrlation_for_users(self , input_mfcc):
+        max_corr_dict = {}
+        avg = 0
+        tot_corr = 0
+        num = 0
+        for i ,user in enumerate(self.user_mfcc):
+            max_corr_for_each_user = 0
+            for sentense , mfcc in user[self.users[i]].items():
+                num += 1
+                # print(user)
+                corr_arr = np.correlate(input_mfcc, mfcc, mode='full')
+                max_corr_index = np.argmax(corr_arr)
+                corr = corr_arr[max_corr_index]
+                
+                corr_arr__ = np.correlate(mfcc, mfcc, mode='full')
+                max_corr_index__ = np.argmax(corr_arr__)
+                corr__ = corr_arr__[max_corr_index__]
+                percentage_corr = corr/corr__
+                
+                tot_corr += percentage_corr
+                
+                if percentage_corr > max_corr_for_each_user:
+                    max_corr_for_each_user = percentage_corr
 
+                print(f"{user.keys()} :{sentense} : {percentage_corr}")
+                # print(f"{user.keys()} :{user} : {corr__}")
+                # print(f"{user.keys()} :{user} : {corr}")
+            max_corr_dict[f"{list(user.keys())[0]}"] = max_corr_for_each_user
 
-        # correlation = np.corrcoef(self.sentenses_mfcc['grant_me_access.wav'], self.sentenses_mfcc['grant_me_access.wav'])[0, 1]
-        # correlation_1 = np.correlate(self.sentenses_mfcc['grant_me_access.wav'], mfcc, mode='full')  #crosse corr
-        # correlation = correlate2d(self.sentenses_mfcc['grant_me_access.wav'], mfcc, mode='full') #crosse corr
-        # correlation = np.correlate(self.sentenses_mfcc['grant_me_access.wav'], mfcc, mode='full') #crosse corr
-        # max_corr_index = np.argmax(correlation)
+            # print(f":{user} : {tot_corr / num}")
+            print(f"max = {max_corr_for_each_user}")
+            print("_________")
+        print(max_corr_dict)
+        for x , y in max_corr_dict.items():
+            print(x)
+            print(y)
+                
+       
+        return max_corr_dict
+    
+        pass
+
+    def print_sentense_scores(self , probs_sent , prop_user): # see how close the input signal and to the 3 sentences or the 8 user voices
+        for sentsnce , prob in probs_sent.items():
+            cell = getattr(self.ui , f"lbl_prop_{sentsnce }")
+            cell.setStyleSheet("")
+            if prob > .35:
+                cell.setStyleSheet("color: green")
+                cell.setText(str(round(prob * 100, 2)))
+                continue
+                
+            cell.setText(str(round(prob*100 , 2)))
+            
+        for user , prob in prop_user.items():
+            cell = getattr(self.ui , f"lbl_prob_{user }")
+            cell.setStyleSheet("")
+            if prob > .37:
+                cell.setStyleSheet("color: green")
+                cell.setText(str(round(prob * 100, 2)))
+                continue
+                
+            cell.setText(str(round(prob*100 , 2)))
+
         
-        # # The similarity score is the maximum value of the cross-correlation
-        # similarity_score = correlation[max_corr_index]
-
-        # print(correlation_1 == correlation)
-        # correlation = np.corrcoef(self.sentenses_mfcc['grant_me_access.wav'], mfcc)[0, 1]
-        # print(f"correlation{correlation}")
-        # print(f"correlation{correlation}")
-        # print(correlation)
-
         # pass
     
-    def calculate_stft(self , audio_data , sample_rate):
-        _, _, stft_magnitude = stft(audio_data, sample_rate)
-
-        # return stft(audio_data , sample_rate )   
-        return stft_magnitude.flatten()
-        
-    def calculate_stft_dot_product(self , stft):
-        similarity_scores = {}
-
-        for sentence_name, sentence_stft in self.sentenses_stft.items():
-            dot_product = np.dot(sentence_stft, stft)
-            similarity_score = dot_product / (np.linalg.norm(sentence_stft) * np.linalg.norm(stft))
-            similarity_scores[sentence_name] = similarity_score
-
-        print("Similarity Scores:")
-        for sentence_name, similarity_score in similarity_scores.items():
-            print(f"{sentence_name}: {similarity_score}")
-
-        # Find the sentence with the highest similarity score
-        max_sentence = max(similarity_scores, key=similarity_scores.get)
-        print(f"Most similar sentence: {max_sentence}")
-
-
-
-
-    def calc_scores(self): # see how close the input signal and to the 3 sentences or the 8 user voices
-        pass
     
-    
-    def users_to_acess(self , user , ischecked): # update how can access from the users 
+    def users_to_access(self , user , ischecked): # update how can access from the users 
         print(ischecked)
         if ischecked:
             self.who_can_access.append(user)
@@ -222,13 +338,23 @@ class MyWindow(QMainWindow):
         print(self.who_can_access)
 
 
-    def print_acess_or_denied(self ): #print if the user is allowed to access or not 
-        if self.access :
-            self.ui.lbl_access.setText('<font color="green">Access Granted</font>')
-        else:
-            self.ui.lbl_access.setText('<font color="red">Access Denied</font>')
+    def print_access_or_denied(self , max_sent ,sent, max_user ,who): #print if the user is allowed to access or not 
+        if max_sent > 0.35 and max_user > 0.37  and who in self.who_can_access:
+            self.ui.lbl_access.setText(f'<font color="green">wlecome {who}</font>')
             
 
+        else:
+            self.ui.lbl_access.setText('<font color="red">Access Denied</font>')
+                
+    def get_height_score_from_dict(self , dict):
+        max = 0
+        for _ , score in dict.items():
+            if score > max :
+                max = score
+                user_sent = _
+        return max , user_sent
+
+        
         
     
 

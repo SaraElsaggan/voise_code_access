@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1309</width>
-    <height>796</height>
+    <height>810</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -641,132 +641,10 @@ QPushButton::pressed
          <property name="text">
           <string>start recording</string>
          </property>
+         <property name="autoDefault">
+          <bool>true</bool>
+         </property>
         </widget>
-       </item>
-       <item row="3" column="1">
-        <layout class="QGridLayout" name="gridLayout">
-         <property name="horizontalSpacing">
-          <number>100</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>20</number>
-         </property>
-         <item row="5" column="0">
-          <widget class="QLabel" name="lbl_acess_user_6">
-           <property name="text">
-            <string>user 6</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QCheckBox" name="chkBox_user_7">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QCheckBox" name="chkBox_user_3">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="lbl_acess_user_7">
-           <property name="text">
-            <string>user 7</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="lbl_acess_user_3">
-           <property name="text">
-            <string>user 3</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="lbl_acess_user_5">
-           <property name="text">
-            <string>user 5</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="lbl_acess_user_4">
-           <property name="text">
-            <string>user 4</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="lbl_acess_user_1">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>user 1</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QCheckBox" name="chkBox_user_5">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="chkBox_user_4">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="chkBox_user_1">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="lbl_acess_user_2">
-           <property name="text">
-            <string>user 2</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QCheckBox" name="chkBox_user_2">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="lbl_acess_user_8">
-           <property name="text">
-            <string>user 8</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QCheckBox" name="chkBox_user_8">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QCheckBox" name="chkBox_user_6">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
        <item row="5" column="1">
         <spacer name="verticalSpacer_2">
@@ -799,6 +677,155 @@ QPushButton::pressed
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="3" column="1">
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="horizontalSpacing">
+          <number>100</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>20</number>
+         </property>
+         <item row="5" column="0">
+          <widget class="QLabel" name="lbl_acess_user_6">
+           <property name="text">
+            <string>Osama</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="lbl_acess_user_7">
+           <property name="text">
+            <string>Ahmed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="lbl_acess_user_3">
+           <property name="text">
+            <string>Yasmeen</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="lbl_acess_user_5">
+           <property name="text">
+            <string>Mahmoud</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="lbl_acess_user_4">
+           <property name="text">
+            <string>Amir</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="lbl_acess_user_1">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Sara</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="lbl_acess_user_2">
+           <property name="text">
+            <string>Reem</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="lbl_acess_user_8">
+           <property name="text">
+            <string>Hesham</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QCheckBox" name="chkBox_sara">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="chkBox_osama">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QCheckBox" name="chkBox_mahmoud">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QCheckBox" name="chkBox_amir">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QCheckBox" name="chkBox_yasmeen">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QCheckBox" name="chkBox_reem">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QCheckBox" name="chkBox_hesham">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QCheckBox" name="chkBox_ahmed">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -891,14 +918,14 @@ QPushButton::pressed
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QLabel" name="lbl_prop_sentence_2">
+            <widget class="QLabel" name="lbl_prop_unlock_the_gate">
              <property name="text">
               <string/>
              </property>
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QLabel" name="lbl_prop_sentence_1">
+            <widget class="QLabel" name="lbl_prop_open_middle_door">
              <property name="text">
               <string/>
              </property>
@@ -912,7 +939,7 @@ QPushButton::pressed
             </widget>
            </item>
            <item row="3" column="2">
-            <widget class="QLabel" name="lbl_prop_sentence_3">
+            <widget class="QLabel" name="lbl_prop_grant_me_access">
              <property name="text">
               <string/>
              </property>
@@ -982,14 +1009,14 @@ QPushButton::pressed
           </property>
           <layout class="QGridLayout" name="gridLayout_6">
            <item row="2" column="2">
-            <widget class="QLabel" name="lbl_prob_user_2">
+            <widget class="QLabel" name="lbl_prob_reem">
              <property name="text">
               <string/>
              </property>
             </widget>
            </item>
            <item row="8" column="2">
-            <widget class="QLabel" name="lbl_prob_user_8">
+            <widget class="QLabel" name="lbl_prob_hesham">
              <property name="text">
               <string/>
              </property>
@@ -998,26 +1025,26 @@ QPushButton::pressed
            <item row="1" column="0">
             <widget class="QLabel" name="lbl_user_24">
              <property name="text">
-              <string>user 1</string>
+              <string>Sara</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="lbl_user_21">
              <property name="text">
-              <string>user 2</string>
+              <string>Reem</string>
              </property>
             </widget>
            </item>
            <item row="7" column="0">
             <widget class="QLabel" name="lbl_user_18">
              <property name="text">
-              <string>user 7</string>
+              <string>Ahmed</string>
              </property>
             </widget>
            </item>
            <item row="3" column="2">
-            <widget class="QLabel" name="lbl_prob_user_3">
+            <widget class="QLabel" name="lbl_prob_yasmeen">
              <property name="text">
               <string/>
              </property>
@@ -1034,14 +1061,14 @@ QPushButton::pressed
             </widget>
            </item>
            <item row="4" column="2">
-            <widget class="QLabel" name="lbl_prob_user_4">
+            <widget class="QLabel" name="lbl_prob_amir">
              <property name="text">
               <string/>
              </property>
             </widget>
            </item>
            <item row="7" column="2">
-            <widget class="QLabel" name="lbl_prob_user_7">
+            <widget class="QLabel" name="lbl_prob_ahmed">
              <property name="text">
               <string/>
              </property>
@@ -1050,14 +1077,14 @@ QPushButton::pressed
            <item row="4" column="0">
             <widget class="QLabel" name="lbl_user_19">
              <property name="text">
-              <string>user 4</string>
+              <string>Amir</string>
              </property>
             </widget>
            </item>
            <item row="6" column="0">
             <widget class="QLabel" name="lbl_user_20">
              <property name="text">
-              <string>user 6</string>
+              <string>Osama</string>
              </property>
             </widget>
            </item>
@@ -1072,7 +1099,7 @@ QPushButton::pressed
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QLabel" name="lbl_prob_user_1">
+            <widget class="QLabel" name="lbl_prob_sara">
              <property name="text">
               <string/>
              </property>
@@ -1081,33 +1108,33 @@ QPushButton::pressed
            <item row="8" column="0">
             <widget class="QLabel" name="lbl_user_22">
              <property name="text">
-              <string>user 8</string>
+              <string>Hesham</string>
              </property>
             </widget>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="lbl_user_23">
              <property name="text">
-              <string>user 3</string>
+              <string>Yasmeen</string>
              </property>
             </widget>
            </item>
            <item row="5" column="0">
             <widget class="QLabel" name="lbl_user_17">
              <property name="text">
-              <string>user 5</string>
+              <string>Mahmoud</string>
              </property>
             </widget>
            </item>
            <item row="6" column="2">
-            <widget class="QLabel" name="lbl_prob_user_6">
+            <widget class="QLabel" name="lbl_prob_osama">
              <property name="text">
               <string/>
              </property>
             </widget>
            </item>
            <item row="5" column="2">
-            <widget class="QLabel" name="lbl_prob_user_5">
+            <widget class="QLabel" name="lbl_prob_mahmoud">
              <property name="text">
               <string/>
              </property>
@@ -1123,7 +1150,7 @@ QPushButton::pressed
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>40</width>
+               <width>26</width>
                <height>20</height>
               </size>
              </property>
@@ -1139,7 +1166,7 @@ QPushButton::pressed
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>100</width>
+               <width>71</width>
                <height>20</height>
               </size>
              </property>
@@ -1167,22 +1194,15 @@ QPushButton::pressed
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>chkBox_user_1</tabstop>
-  <tabstop>chkBox_user_2</tabstop>
-  <tabstop>chkBox_user_3</tabstop>
-  <tabstop>chkBox_user_4</tabstop>
-  <tabstop>chkBox_user_5</tabstop>
-  <tabstop>chkBox_user_6</tabstop>
-  <tabstop>chkBox_user_7</tabstop>
-  <tabstop>chkBox_user_8</tabstop>
-  <tabstop>chkBox_user_1</tabstop>
-  <tabstop>chkBox_user_2</tabstop>
-  <tabstop>chkBox_user_3</tabstop>
-  <tabstop>chkBox_user_4</tabstop>
-  <tabstop>chkBox_user_5</tabstop>
-  <tabstop>chkBox_user_6</tabstop>
-  <tabstop>chkBox_user_7</tabstop>
-  <tabstop>chkBox_user_8</tabstop>
+  <tabstop>chkBox_sara</tabstop>
+  <tabstop>chkBox_osama</tabstop>
+  <tabstop>chkBox_mahmoud</tabstop>
+  <tabstop>chkBox_amir</tabstop>
+  <tabstop>chkBox_yasmeen</tabstop>
+  <tabstop>chkBox_reem</tabstop>
+  <tabstop>chkBox_hesham</tabstop>
+  <tabstop>chkBox_ahmed</tabstop>
+  <tabstop>btn_record</tabstop>
  </tabstops>
  <resources/>
  <connections/>

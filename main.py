@@ -47,6 +47,7 @@ class MyWindow(QMainWindow):
         
         self.input_fs = 22050
         self.access = False
+        
         self.who_can_access = []
         
        
@@ -81,6 +82,10 @@ class MyWindow(QMainWindow):
         # self.folder_path_amir = "./amir"
 
         self.sentense_mfcc = []
+
+        self.sentense_spect = []
+
+
         self.user_mfcc = []
         
         self.sentenses = ["open_middle_door" , "unlock_the_gate" ,"grant_me_access"]
@@ -99,18 +104,34 @@ class MyWindow(QMainWindow):
             
         for i ,  sentense_folder in enumerate(self.sentenses)  :
             folder_path = f"./{sentense_folder}"
-            self.sentense_mfcc.append({sentense_folder : {}})
+            self.sentense_spect.append({sentense_folder : {}})
             for j , file_name in enumerate(os.listdir(folder_path)):
                 file_path = os.path.join(folder_path, file_name)
                 audio_data , sample_rate = librosa.load(file_path)
-                mfcc = self.extract_feature_points(audio_data , sample_rate)
+                print(audio_data.shape)
+                spect = self.calc_spect(audio_data , sample_rate)
                 # dict = getattr(self , f"mfcc_{sentense_folder}")
-                # dict[file_name] = mfcc
-                self.sentense_mfcc[i][sentense_folder][f"{file_name.split('_')[0]}_{j}"] = mfcc
+                # dict[file_name] = spect
+                self.sentense_spect[i][sentense_folder][f"{file_name.split('_')[0]}_{j}"] = spect
                 # print(f"file :{file_name}")
                 # print(f"file_name: {file_name}, {mfcc}")
                 
-            print(self.sentense_mfcc)
+            # print(self.sentense_mfcc)
+
+        # for i ,  sentense_folder in enumerate(self.sentenses)  :
+        #     folder_path = f"./{sentense_folder}"
+        #     self.sentense_mfcc.append({sentense_folder : {}})
+        #     for j , file_name in enumerate(os.listdir(folder_path)):
+        #         file_path = os.path.join(folder_path, file_name)
+        #         audio_data , sample_rate = librosa.load(file_path)
+        #         mfcc = self.extract_feature_points(audio_data , sample_rate)
+        #         # dict = getattr(self , f"mfcc_{sentense_folder}")
+        #         # dict[file_name] = mfcc
+        #         self.sentense_mfcc[i][sentense_folder][f"{file_name.split('_')[0]}_{j}"] = mfcc
+        #         # print(f"file :{file_name}")
+        #         # print(f"file_name: {file_name}, {mfcc}")
+                
+        #     print(self.sentense_mfcc)
         
         
         
@@ -133,6 +154,7 @@ class MyWindow(QMainWindow):
         # return the audio_data
         duration = 2
         input_audio = sd.rec(int(duration * self.input_fs), samplerate=self.input_fs, channels=1, dtype=np.int16)
+        input_audio = np.squeeze(input_audio)
 
         # self.print_access_or_denied()
         sd.wait()
@@ -140,8 +162,11 @@ class MyWindow(QMainWindow):
         
         # get mfcc 
         mfcc = self.extract_feature_points(input_audio , self.input_fs)
+        spect = self.calc_spect(input_audio , self.input_fs)
+
         print(f"input mfcc :{mfcc.shape}")
-        sent_prob = self.featurepoints_corrlation_for_sentences(mfcc)
+        sent_prob = self.featurepoints_corrlation_for_sentences_spect(spect)
+        # sent_prob = self.featurepoints_corrlation_for_sentences(mfcc)
         user_prob = self.featurepoints_corrlation_for_users(mfcc)
         
         max_socre_sent , sent = self.get_height_score_from_dict(sent_prob)
@@ -167,11 +192,19 @@ class MyWindow(QMainWindow):
     
     def plot_spectogram(self , audio_data): # draw the spectogram of the input voice 
         self.spectrogram_canvas.axes.clear()
-        self.spectrogram_canvas.axes.specgram(audio_data[:, 0], Fs=self.input_fs)
+        self.spectrogram_canvas.axes.specgram(audio_data, Fs=self.input_fs)
         self.spectrogram_canvas.draw()
         
         
+    def calc_spect(self , audio_data , sample_rate):
         
+        spectrogram = librosa.feature.melspectrogram(y=audio_data.astype(np.float32), sr=sample_rate) # this is where the warn is 
+        spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
+        if spectrogram_db.ndim == 1:
+            spectrogram_db = np.expand_dims(spectrogram_db, axis=0)
+
+
+        return spectrogram_db
     '''mode 1 using mfcc'''
     def extract_feature_points(self , audio_data , sample_rate): # get the feature points from the spectogram
         audio_data = audio_data.astype(np.float32)
@@ -191,6 +224,53 @@ class MyWindow(QMainWindow):
         return mfcc_normalized.flatten()
         # pass
     
+    
+    def featurepoints_corrlation_for_sentences_spect(self , input_specto):
+        max_corr_dict = {}
+        avg = 0
+        tot_corr = 0
+        num = 0
+        if input_specto.ndim == 3:
+            input_specto = np.squeeze(input_specto, axis=0)
+
+        for i ,sentense in enumerate(self.sentense_spect):
+            max_corr_for_each_sent = 0
+            for user , spect in sentense[self.sentenses[i]].items():
+                num += 1
+                # print(user)
+                corr_arr = correlate2d(input_specto, spect, mode='full')
+                max_corr_index = np.argmax(corr_arr)
+                corr = np.max(corr_arr)
+                # corr = corr_arr[max_corr_index]
+                
+                corr_arr__ = correlate2d(spect, spect, mode='full')
+                max_corr_index__ = np.argmax(corr_arr__)
+                # corr__ = corr_arr__[max_corr_index__]
+                corr__ = np.max(corr_arr__)
+                percentage_corr = corr/corr__
+                
+                tot_corr += percentage_corr
+                
+                if percentage_corr > max_corr_for_each_sent:
+                    max_corr_for_each_sent = percentage_corr
+
+                print(f"{sentense.keys()} :{user} : {percentage_corr}")
+                # print(f"{sentense.keys()} :{user} : {corr__}")
+                # print(f"{sentense.keys()} :{user} : {corr}")
+            max_corr_dict[f"{list(sentense.keys())[0]}"] = max_corr_for_each_sent
+
+            # print(f":{user} : {tot_corr / num}")
+            print(f"max = {max_corr_for_each_sent}")
+            print("_________")
+        print(max_corr_dict)
+        for x , y in max_corr_dict.items():
+            print(x)
+            print(y)
+                
+       
+        return max_corr_dict
+        
+        
     def featurepoints_corrlation_for_sentences(self , input_mfcc ): #compare between the inpus voice signal and the feature point from other spectograms
         # correlation = np.corrcoef(self.sentenses_mfcc['test.wav'], mfcc)[0, 1] 
         # print(f"correlation{correlation}")

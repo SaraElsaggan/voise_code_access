@@ -1,4 +1,3 @@
-from sklearn.metrics.pairwise import cosine_similarity
 import numba
 from scipy.stats import zscore
 from scipy.signal import correlate2d , stft
@@ -120,18 +119,18 @@ class MyWindow(QMainWindow):
                 
             # print(self.sentense_mfcc)
 
-        # for i ,  sentense_folder in enumerate(self.sentenses)  :
-        #     folder_path = f"./{sentense_folder}"
-        #     self.sentense_mfcc.append({sentense_folder : {}})
-        #     for j , file_name in enumerate(os.listdir(folder_path)):
-        #         file_path = os.path.join(folder_path, file_name)
-        #         audio_data , sample_rate = librosa.load(file_path)
-        #         mfcc = self.extract_feature_points(audio_data , sample_rate)
-        #         # dict = getattr(self , f"mfcc_{sentense_folder}")
-        #         # dict[file_name] = mfcc
-        #         self.sentense_mfcc[i][sentense_folder][f"{file_name.split('_')[0]}_{j}"] = mfcc
-        #         # print(f"file :{file_name}")
-        #         # print(f"file_name: {file_name}, {mfcc}")
+        for i ,  sentense_folder in enumerate(self.sentenses)  :
+            folder_path = f"./{sentense_folder}"
+            self.sentense_mfcc.append({sentense_folder : {}})
+            for j , file_name in enumerate(os.listdir(folder_path)):
+                file_path = os.path.join(folder_path, file_name)
+                audio_data , sample_rate = librosa.load(file_path)
+                mfcc = self.extract_feature_points(audio_data , sample_rate)
+                # dict = getattr(self , f"mfcc_{sentense_folder}")
+                # dict[file_name] = mfcc
+                self.sentense_mfcc[i][sentense_folder][f"{file_name.split('_')[0]}_{j}"] = mfcc
+                # print(f"file :{file_name}")
+                # print(f"file_name: {file_name}, {mfcc}")
                 
         #     print(self.sentense_mfcc)
         
@@ -182,7 +181,7 @@ class MyWindow(QMainWindow):
             
         
         
-        # self.print_sentense_scores(sent_prob , user_prob)
+        self.print_sentense_scores(sent_prob , user_prob)
      
         
 
@@ -199,13 +198,28 @@ class MyWindow(QMainWindow):
         self.spectrogram_canvas.draw()
         
         
-    def calc_spect(self , audio_data , sample_rate):
-        
-        spectrogram = librosa.feature.melspectrogram(y=audio_data.astype(np.float32), sr=sample_rate) # this is where the warn is 
-        # spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
+    def calc_spect(self , audio_data , sample_rate):     
+        audio_data = audio_data.astype(np.float32)   
+        stft = librosa.stft(audio_data)
+        stft_db = librosa.amplitude_to_db(np.abs(stft))
+        spectrogram = librosa.feature.melspectrogram(S=stft_db, sr=sample_rate) # this is where the warn is 
+        # spectrogram = librosa.feature.melspectrogram(y=audio_data.astype(np.float32), sr=sample_rate) # this is where the warn is 
+        spectrogram = spectrogram.T
+        scaler = preprocessing.StandardScaler()
+        spectrogram_normalized = scaler.fit_transform(spectrogram)
+
+        # Transpose the matrix back to the original shape
+        spectrogram_normalized = spectrogram_normalized.T
+
+        # spectrogram_normalized = (spectrogram - np.min(spectrogram)) / (np.max(spectrogram) - np.min(spectrogram))
+
+        x = np.max(spectrogram_normalized)
+        y = np.min(spectrogram_normalized)
+        spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
+        return spectrogram_normalized.flatten()
+        # return spectrogram_db
      
 
-        return spectrogram.flatten()
     '''mode 1 using mfcc'''
     def extract_feature_points(self , audio_data , sample_rate): # get the feature points from the spectogram
         audio_data = audio_data.astype(np.float32)
@@ -229,21 +243,48 @@ class MyWindow(QMainWindow):
     def featurepoints_corrlation_for_sentences_spect(self , input_specto):
         max_corr_dict = {}
         avg = 0
-        tot_corr = 0
-        num = 0
-        max = 0 
-        
+
         for i ,sentense in enumerate(self.sentense_spect):
+            tot_corr = 0
+            num = 0
             max_corr_for_each_sent = 0
             for user , spect in sentense[self.sentenses[i]].items():
                 num += 1
                 # print(user)
-                similarity = cosine_similarity(input_specto.reshape(1, -1), spect.reshape(1, -1))[0, 0]
                 
-                if similarity > max_corr_for_each_sent:
-                    max_corr_for_each_sent = similarity
+                corr_arr = np.correlate(input_specto, spect, mode='full')
+                max_corr_position = np.unravel_index(np.argmax(corr_arr), corr_arr.shape)
 
-                print(f"{sentense.keys()} :{user} : {similarity}")
+                # Get the maximum correlation value itself
+                corr = corr_arr[max_corr_position]
+
+                corr_arr__ = np.correlate(spect, spect, mode='full')
+                max_corr_position__ = np.unravel_index(np.argmax(corr_arr__), corr_arr__.shape)
+
+                # Get the maximum correlation value itself
+                corr__ = corr_arr__[max_corr_position__]
+                # max_corr_index = np.argmax(corr_arr)
+                # corr = np.max(corr_arr)
+                # normalized_corr = np.max(corr_arr) / np.sqrt(np.sum(input_specto**2) * np.sum(spect**2))
+
+                # Convert normalized correlation to a percentage
+                # similarity_percentage = (normalized_corr + 1) / 2 * 100
+                similarity_percentage = corr / corr__
+
+                # corr = corr_arr[max_corr_index]
+                
+                # corr_arr__ = correlate2d(spect, spect, mode='full')
+                # max_corr_index__ = np.argmax(corr_arr__)
+                # # corr__ = corr_arr__[max_corr_index__]
+                # corr__ = np.max(corr_arr__)
+                # percentage_corr = corr/corr__
+                
+                tot_corr += similarity_percentage
+                
+                if similarity_percentage > max_corr_for_each_sent:
+                    max_corr_for_each_sent = similarity_percentage
+
+                print(f"{sentense.keys()} :{user} : {similarity_percentage}")
                 # print(f"{sentense.keys()} :{user} : {corr__}")
                 # print(f"{sentense.keys()} :{user} : {corr}")
             max_corr_dict[f"{list(sentense.keys())[0]}"] = max_corr_for_each_sent
@@ -252,55 +293,12 @@ class MyWindow(QMainWindow):
             print(f"max = {max_corr_for_each_sent}")
             print("_________")
         print(max_corr_dict)
-
-                
-        #         corr_arr = correlate2d(input_specto, spect, mode='full')
-        #         max_corr_position = np.unravel_index(np.argmax(corr_arr), corr_arr.shape)
-
-        #         # Get the maximum correlation value itself
-        #         corr = corr_arr[max_corr_position]
-
-        #         corr_arr__ = correlate2d(spect, spect, mode='full')
-        #         max_corr_position__ = np.unravel_index(np.argmax(corr_arr__), corr_arr__.shape)
-
-        #         # Get the maximum correlation value itself
-        #         corr__ = corr_arr__[max_corr_position__]
-        #         # max_corr_index = np.argmax(corr_arr)
-        #         # corr = np.max(corr_arr)
-        #         # normalized_corr = np.max(corr_arr) / np.sqrt(np.sum(input_specto**2) * np.sum(spect**2))
-
-        #         # Convert normalized correlation to a percentage
-        #         # similarity_percentage = (normalized_corr + 1) / 2 * 100
-        #         similarity_percentage = corr / corr__
-
-        #         # corr = corr_arr[max_corr_index]
-                
-        #         # corr_arr__ = correlate2d(spect, spect, mode='full')
-        #         # max_corr_index__ = np.argmax(corr_arr__)
-        #         # # corr__ = corr_arr__[max_corr_index__]
-        #         # corr__ = np.max(corr_arr__)
-        #         # percentage_corr = corr/corr__
-                
-        #         # tot_corr += percentage_corr
-                
-        #         if similarity_percentage > max_corr_for_each_sent:
-        #             max_corr_for_each_sent = similarity_percentage
-
-        #         print(f"{sentense.keys()} :{user} : {similarity_percentage}")
-        #         # print(f"{sentense.keys()} :{user} : {corr__}")
-        #         # print(f"{sentense.keys()} :{user} : {corr}")
-        #     max_corr_dict[f"{list(sentense.keys())[0]}"] = max_corr_for_each_sent
-
-        #     # print(f":{user} : {tot_corr / num}")
-        #     print(f"max = {max_corr_for_each_sent}")
-        #     print("_________")
-        # print(max_corr_dict)
-        # for x , y in max_corr_dict.items():
-        #     print(x)
-        #     print(y)
+        for x , y in max_corr_dict.items():
+            print(x)
+            print(y)
                 
        
-        # return max_corr_dict
+        return max_corr_dict
         
         
     def featurepoints_corrlation_for_sentences(self , input_mfcc ): #compare between the inpus voice signal and the feature point from other spectograms
@@ -350,6 +348,7 @@ class MyWindow(QMainWindow):
                 corr_arr__ = np.correlate(mfcc, mfcc, mode='full')
                 max_corr_index__ = np.argmax(corr_arr__)
                 corr__ = corr_arr__[max_corr_index__]
+
                 percentage_corr = corr/corr__
                 
                 tot_corr += percentage_corr

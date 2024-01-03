@@ -1,3 +1,4 @@
+import numba
 from scipy.stats import zscore
 from scipy.signal import correlate2d , stft
 from sklearn import preprocessing
@@ -47,6 +48,7 @@ class MyWindow(QMainWindow):
         
         self.input_fs = 22050
         self.access = False
+        
         self.who_can_access = []
         
        
@@ -81,6 +83,10 @@ class MyWindow(QMainWindow):
         # self.folder_path_amir = "./amir"
 
         self.sentense_mfcc = []
+
+        self.sentense_spect = []
+
+
         self.user_mfcc = []
         
         self.sentenses = ["open_middle_door" , "unlock_the_gate" ,"grant_me_access"]
@@ -99,6 +105,22 @@ class MyWindow(QMainWindow):
             
         for i ,  sentense_folder in enumerate(self.sentenses)  :
             folder_path = f"./{sentense_folder}"
+            self.sentense_spect.append({sentense_folder : {}})
+            for j , file_name in enumerate(os.listdir(folder_path)):
+                file_path = os.path.join(folder_path, file_name)
+                audio_data , sample_rate = librosa.load(file_path)
+                print(audio_data.shape)
+                spect = self.calc_spect(audio_data , sample_rate)
+                # dict = getattr(self , f"mfcc_{sentense_folder}")
+                # dict[file_name] = spect
+                self.sentense_spect[i][sentense_folder][f"{file_name.split('_')[0]}_{j}"] = spect
+                # print(f"file :{file_name}")
+                # print(f"file_name: {file_name}, {mfcc}")
+                
+            # print(self.sentense_mfcc)
+
+        for i ,  sentense_folder in enumerate(self.sentenses)  :
+            folder_path = f"./{sentense_folder}"
             self.sentense_mfcc.append({sentense_folder : {}})
             for j , file_name in enumerate(os.listdir(folder_path)):
                 file_path = os.path.join(folder_path, file_name)
@@ -110,7 +132,7 @@ class MyWindow(QMainWindow):
                 # print(f"file :{file_name}")
                 # print(f"file_name: {file_name}, {mfcc}")
                 
-            print(self.sentense_mfcc)
+        #     print(self.sentense_mfcc)
         
         
         
@@ -133,6 +155,7 @@ class MyWindow(QMainWindow):
         # return the audio_data
         duration = 2
         input_audio = sd.rec(int(duration * self.input_fs), samplerate=self.input_fs, channels=1, dtype=np.int16)
+        input_audio = np.squeeze(input_audio)
 
         # self.print_access_or_denied()
         sd.wait()
@@ -140,12 +163,16 @@ class MyWindow(QMainWindow):
         
         # get mfcc 
         mfcc = self.extract_feature_points(input_audio , self.input_fs)
+        spect = self.calc_spect(input_audio , self.input_fs)
+
         print(f"input mfcc :{mfcc.shape}")
-        sent_prob = self.featurepoints_corrlation_for_sentences(mfcc)
         user_prob = self.featurepoints_corrlation_for_users(mfcc)
+        # sent_prob = {}
+        sent_prob = self.featurepoints_corrlation_for_sentences_spect(spect)
+        # sent_prob = self.featurepoints_corrlation_for_sentences(mfcc)
         
-        max_socre_sent , sent = self.get_height_score_from_dict(sent_prob)
-        max_socre_user , who = self.get_height_score_from_dict(user_prob)
+        max_socre_sent , sent = self.get_score_from_dict(sent_prob)
+        max_socre_user , who = self.get_score_from_dict(user_prob)
         
         self.print_access_or_denied(max_socre_sent, sent ,  max_socre_user ,who )
         
@@ -167,11 +194,32 @@ class MyWindow(QMainWindow):
     
     def plot_spectogram(self , audio_data): # draw the spectogram of the input voice 
         self.spectrogram_canvas.axes.clear()
-        self.spectrogram_canvas.axes.specgram(audio_data[:, 0], Fs=self.input_fs)
+        self.spectrogram_canvas.axes.specgram(audio_data, Fs=self.input_fs)
         self.spectrogram_canvas.draw()
         
         
-        
+    def calc_spect(self , audio_data , sample_rate):     
+        audio_data = audio_data.astype(np.float32)   
+        stft = np.abs(librosa.stft(audio_data))
+        stft_db = librosa.amplitude_to_db(np.abs(stft))
+        spectrogram = librosa.feature.melspectrogram(S=stft_db, sr=sample_rate) # this is where the warn is 
+        # spectrogram = librosa.feature.melspectrogram(y=audio_data.astype(np.float32), sr=sample_rate) # this is where the warn is 
+        spectrogram = spectrogram.T
+        scaler = preprocessing.StandardScaler()
+        spectrogram_normalized = scaler.fit_transform(spectrogram)
+
+        # Transpose the matrix back to the original shape
+        spectrogram_normalized = spectrogram_normalized.T
+
+        # spectrogram_normalized = (spectrogram - np.min(spectrogram)) / (np.max(spectrogram) - np.min(spectrogram))
+
+        x = np.max(spectrogram_normalized)
+        y = np.min(spectrogram_normalized)
+        spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
+        return spectrogram_normalized.flatten()
+        # return spectrogram_db
+     
+
     '''mode 1 using mfcc'''
     def extract_feature_points(self , audio_data , sample_rate): # get the feature points from the spectogram
         audio_data = audio_data.astype(np.float32)
@@ -191,6 +239,68 @@ class MyWindow(QMainWindow):
         return mfcc_normalized.flatten()
         # pass
     
+    # @numba.jit(parallel=True)
+    def featurepoints_corrlation_for_sentences_spect(self , input_specto):
+        max_corr_dict = {}
+        avg = 0
+
+        for i ,sentense in enumerate(self.sentense_spect):
+            tot_corr = 0
+            num = 0
+            max_corr_for_each_sent = 0
+            for user , spect in sentense[self.sentenses[i]].items():
+                num += 1
+                # print(user)
+                
+                corr_arr = np.correlate(input_specto, spect, mode='full')
+                max_corr_position = np.unravel_index(np.argmax(corr_arr), corr_arr.shape)
+
+                # Get the maximum correlation value itself
+                corr = corr_arr[max_corr_position]
+
+                corr_arr__ = np.correlate(spect, spect, mode='full')
+                max_corr_position__ = np.unravel_index(np.argmax(corr_arr__), corr_arr__.shape)
+
+                # Get the maximum correlation value itself
+                corr__ = corr_arr__[max_corr_position__]
+                # max_corr_index = np.argmax(corr_arr)
+                # corr = np.max(corr_arr)
+                # normalized_corr = np.max(corr_arr) / np.sqrt(np.sum(input_specto**2) * np.sum(spect**2))
+
+                # Convert normalized correlation to a percentage
+                # similarity_percentage = (normalized_corr + 1) / 2 * 100
+                similarity_percentage = corr / corr__
+
+                # corr = corr_arr[max_corr_index]
+                
+                # corr_arr__ = correlate2d(spect, spect, mode='full')
+                # max_corr_index__ = np.argmax(corr_arr__)
+                # # corr__ = corr_arr__[max_corr_index__]
+                # corr__ = np.max(corr_arr__)
+                # percentage_corr = corr/corr__
+                
+                tot_corr += similarity_percentage
+                
+                if similarity_percentage > max_corr_for_each_sent:
+                    max_corr_for_each_sent = similarity_percentage
+
+                print(f"{sentense.keys()} :{user} : {similarity_percentage}")
+                # print(f"{sentense.keys()} :{user} : {corr__}")
+                # print(f"{sentense.keys()} :{user} : {corr}")
+            max_corr_dict[f"{list(sentense.keys())[0]}"] = max_corr_for_each_sent
+
+            # print(f":{user} : {tot_corr / num}")
+            print(f"max = {max_corr_for_each_sent}")
+            print("_________")
+        print(max_corr_dict)
+        for x , y in max_corr_dict.items():
+            print(x)
+            print(y)
+                
+       
+        return max_corr_dict
+        
+        
     def featurepoints_corrlation_for_sentences(self , input_mfcc ): #compare between the inpus voice signal and the feature point from other spectograms
         # correlation = np.corrcoef(self.sentenses_mfcc['test.wav'], mfcc)[0, 1] 
         # print(f"correlation{correlation}")
@@ -238,6 +348,7 @@ class MyWindow(QMainWindow):
                 corr_arr__ = np.correlate(mfcc, mfcc, mode='full')
                 max_corr_index__ = np.argmax(corr_arr__)
                 corr__ = corr_arr__[max_corr_index__]
+
                 percentage_corr = corr/corr__
                 
                 tot_corr += percentage_corr
@@ -273,11 +384,13 @@ class MyWindow(QMainWindow):
                 # print(user)
                 corr_arr = np.correlate(input_mfcc, mfcc, mode='full')
                 max_corr_index = np.argmax(corr_arr)
+                # corr = np.max(corr_arr)
                 corr = corr_arr[max_corr_index]
                 
                 corr_arr__ = np.correlate(mfcc, mfcc, mode='full')
                 max_corr_index__ = np.argmax(corr_arr__)
                 corr__ = corr_arr__[max_corr_index__]
+                # corr__ = np.max(corr_arr__)
                 percentage_corr = corr/corr__
                 
                 tot_corr += percentage_corr
@@ -307,7 +420,7 @@ class MyWindow(QMainWindow):
         for sentsnce , prob in probs_sent.items():
             cell = getattr(self.ui , f"lbl_prop_{sentsnce }")
             cell.setStyleSheet("")
-            if prob > .35:
+            if prob > .7:
                 cell.setStyleSheet("color: green")
                 cell.setText(str(round(prob * 100, 2)))
                 continue
@@ -317,7 +430,7 @@ class MyWindow(QMainWindow):
         for user , prob in prop_user.items():
             cell = getattr(self.ui , f"lbl_prob_{user }")
             cell.setStyleSheet("")
-            if prob > .37:
+            if prob > .4:
                 cell.setStyleSheet("color: green")
                 cell.setText(str(round(prob * 100, 2)))
                 continue
@@ -339,14 +452,14 @@ class MyWindow(QMainWindow):
 
 
     def print_access_or_denied(self , max_sent ,sent, max_user ,who): #print if the user is allowed to access or not 
-        if max_sent > 0.35 and max_user > 0.37  and who in self.who_can_access:
+        if max_sent > 0.70 and max_user > 0.4  and who in self.who_can_access:
             self.ui.lbl_access.setText(f'<font color="green">wlecome {who}</font>')
             
 
         else:
             self.ui.lbl_access.setText('<font color="red">Access Denied</font>')
                 
-    def get_height_score_from_dict(self , dict):
+    def get_score_from_dict(self , dict):
         max = 0
         for _ , score in dict.items():
             if score > max :

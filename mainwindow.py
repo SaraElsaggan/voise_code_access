@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1309, 810)
+        MainWindow.resize(1316, 810)
         MainWindow.setStyleSheet("/*Copyright (c) DevSec Studio. All rights reserved.\n"
 "\n"
 "MIT License\n"
@@ -776,7 +776,7 @@ class Ui_MainWindow(object):
         self.gridLayout_9.addLayout(self.verticalLayout, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1309, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1316, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -798,7 +798,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.lbl_access.setText(_translate("MainWindow", "access"))
-        self.label.setText(_translate("MainWindow", "choose how can acess:"))
+        self.label.setText(_translate("MainWindow", "choose who can acess:"))
         self.btn_record.setText(_translate("MainWindow", "start recording"))
         self.lbl_acess_user_6.setText(_translate("MainWindow", "Osama"))
         self.lbl_acess_user_7.setText(_translate("MainWindow", "Ahmed"))
@@ -811,12 +811,12 @@ class Ui_MainWindow(object):
         self.lbl_sentence_1.setText(_translate("MainWindow", "Open middle door"))
         self.label_4.setText(_translate("MainWindow", "sentence"))
         self.lbl_sentence_3.setText(_translate("MainWindow", "Grant me access"))
-        self.label_3.setText(_translate("MainWindow", "Probability"))
+        self.label_3.setText(_translate("MainWindow", "similarty"))
         self.lbl_sentence_2.setText(_translate("MainWindow", "Unlock the gate"))
         self.lbl_user_24.setText(_translate("MainWindow", "Sara"))
         self.lbl_user_21.setText(_translate("MainWindow", "Reem"))
         self.lbl_user_18.setText(_translate("MainWindow", "Ahmed"))
-        self.label_10.setText(_translate("MainWindow", "Probability"))
+        self.label_10.setText(_translate("MainWindow", "similarty"))
         self.lbl_user_19.setText(_translate("MainWindow", "Amir"))
         self.lbl_user_20.setText(_translate("MainWindow", "Osama"))
         self.label_9.setText(_translate("MainWindow", "user"))

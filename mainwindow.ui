@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1309</width>
+    <width>1316</width>
     <height>810</height>
    </rect>
   </property>
@@ -578,7 +578,7 @@ background-color: rgb(226, 241, 255); /* Set the background color */
        <item row="1" column="1">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>choose how can acess:</string>
+          <string>choose who can acess:</string>
          </property>
         </widget>
        </item>
@@ -951,7 +951,7 @@ QPushButton::pressed
               <string notr="true">background-color: rgb(221, 245, 255);</string>
              </property>
              <property name="text">
-              <string>Probability</string>
+              <string>similarty</string>
              </property>
             </widget>
            </item>
@@ -1056,7 +1056,7 @@ QPushButton::pressed
               <string notr="true">background-color: rgb(221, 245, 255);</string>
              </property>
              <property name="text">
-              <string>Probability</string>
+              <string>similarty</string>
              </property>
             </widget>
            </item>
@@ -1186,7 +1186,7 @@ QPushButton::pressed
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1309</width>
+     <width>1316</width>
      <height>26</height>
     </rect>
    </property>

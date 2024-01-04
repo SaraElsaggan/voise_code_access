@@ -162,26 +162,26 @@ class MyWindow(QMainWindow):
         self.plot_spectogram(input_audio)
         
         # get mfcc 
-        mfcc = self.extract_feature_points(input_audio , self.input_fs)
+        # mfcc = self.extract_feature_points(input_audio , self.input_fs)
         spect = self.calc_spect(input_audio , self.input_fs)
 
-        print(f"input mfcc :{mfcc.shape}")
-        user_prob = self.featurepoints_corrlation_for_users(mfcc)
+        # print(f"input mfcc :{mfcc.shape}")
+        # user_prob = self.featurepoints_corrlation_for_users(mfcc)
         # sent_prob = {}
         sent_prob = self.featurepoints_corrlation_for_sentences_spect(spect)
         # sent_prob = self.featurepoints_corrlation_for_sentences(mfcc)
         
         max_socre_sent , sent = self.get_score_from_dict(sent_prob)
-        max_socre_user , who = self.get_score_from_dict(user_prob)
+        # max_socre_user , who = self.get_score_from_dict(user_prob)
         
-        self.print_access_or_denied(max_socre_sent, sent ,  max_socre_user ,who )
+        # self.print_access_or_denied(max_socre_sent, sent ,  max_socre_user ,who )
         
         # if max_socre_sent > 0.35 and max_socre_user > 0.35:
             
             
         
         
-        self.print_sentense_scores(sent_prob , user_prob)
+        # self.print_sentense_scores(sent_prob , user_prob)
      
         
 
@@ -200,23 +200,34 @@ class MyWindow(QMainWindow):
         
     def calc_spect(self , audio_data , sample_rate):     
         audio_data = audio_data.astype(np.float32)   
-        stft = np.abs(librosa.stft(audio_data))
-        stft_db = librosa.amplitude_to_db(np.abs(stft))
-        spectrogram = librosa.feature.melspectrogram(S=stft_db, sr=sample_rate) # this is where the warn is 
+        # stft = np.abs(librosa.stft(audio_data))
+        # stft_db = librosa.amplitude_to_db(stft)
+        spect = librosa.feature.melspectrogram(y = audio_data , sr = sample_rate)
+        spect_db = librosa.amplitude_to_db(spect , ref= np.max)
+        # mel_stft = librosa.feature.melspectrogram(S=stft_db)
+        # stft_normlized = preprocessing.normalize(stft.reshape(1, -1))
+        # stft_normlized = (stft - np.min(stft)) / (np.max(stft) - np.min(stft))
+        # mel_stft_norm = (stft_db - np.min(stft_db)) / (np.max(stft_db) - np.min(stft_db))
+        return spect_db.flatten()
+        # return stft_db.flatten()
+        # return mel_stft_norm.flatten()
+
+        # stft_db = librosa.amplitude_to_db(np.abs(stft))
+        # spectrogram = librosa.feature.melspectrogram(S=stft_db, sr=sample_rate) # this is where the warn is 
         # spectrogram = librosa.feature.melspectrogram(y=audio_data.astype(np.float32), sr=sample_rate) # this is where the warn is 
-        spectrogram = spectrogram.T
-        scaler = preprocessing.StandardScaler()
-        spectrogram_normalized = scaler.fit_transform(spectrogram)
+        # spectrogram = spectrogram.T
+        # scaler = preprocessing.StandardScaler()
+        # spectrogram_normalized = scaler.fit_transform(spectrogram)
 
-        # Transpose the matrix back to the original shape
-        spectrogram_normalized = spectrogram_normalized.T
+        # # Transpose the matrix back to the original shape
+        # spectrogram_normalized = spectrogram_normalized.T
 
-        # spectrogram_normalized = (spectrogram - np.min(spectrogram)) / (np.max(spectrogram) - np.min(spectrogram))
+        # # spectrogram_normalized = (spectrogram - np.min(spectrogram)) / (np.max(spectrogram) - np.min(spectrogram))
 
-        x = np.max(spectrogram_normalized)
-        y = np.min(spectrogram_normalized)
-        spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
-        return spectrogram_normalized.flatten()
+        # x = np.max(spectrogram_normalized)
+        # y = np.min(spectrogram_normalized)
+        # spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
+        # return spectrogram_normalized.flatten()
         # return spectrogram_db
      
 
@@ -253,23 +264,32 @@ class MyWindow(QMainWindow):
                 # print(user)
                 
                 corr_arr = np.correlate(input_specto, spect, mode='full')
+                corr_norm =  (corr_arr - np.min(corr_arr)) / (np.max(corr_arr) - np.min(corr_arr))
+   
                 max_corr_position = np.unravel_index(np.argmax(corr_arr), corr_arr.shape)
-
-                # Get the maximum correlation value itself
-                corr = corr_arr[max_corr_position]
+                # corr = corr_arr[max_corr_position]
+                corr = np.mean(corr_norm)
 
                 corr_arr__ = np.correlate(spect, spect, mode='full')
+                corr_norm__ =  (corr_arr__ - np.min(corr_arr__)) / (np.max(corr_arr__) - np.min(corr_arr__))
+
+                corr__ = np.mean(corr_arr__)
+   
                 max_corr_position__ = np.unravel_index(np.argmax(corr_arr__), corr_arr__.shape)
+                # corr__ = corr_arr__[max_corr_position__]
+
+                similarity_score = corr / corr__
+
+                tot_corr += corr
+                # Get the maximum correlation value itself
 
                 # Get the maximum correlation value itself
-                corr__ = corr_arr__[max_corr_position__]
                 # max_corr_index = np.argmax(corr_arr)
                 # corr = np.max(corr_arr)
                 # normalized_corr = np.max(corr_arr) / np.sqrt(np.sum(input_specto**2) * np.sum(spect**2))
 
                 # Convert normalized correlation to a percentage
-                # similarity_percentage = (normalized_corr + 1) / 2 * 100
-                similarity_percentage = corr / corr__
+                # similarity_score = (normalized_corr + 1) / 2 * 100
 
                 # corr = corr_arr[max_corr_index]
                 
@@ -279,12 +299,12 @@ class MyWindow(QMainWindow):
                 # corr__ = np.max(corr_arr__)
                 # percentage_corr = corr/corr__
                 
-                tot_corr += similarity_percentage
+                # tot_sim += np.mean(corr_arr)
                 
-                if similarity_percentage > max_corr_for_each_sent:
-                    max_corr_for_each_sent = similarity_percentage
+                if similarity_score > max_corr_for_each_sent:
+                    max_corr_for_each_sent = similarity_score
 
-                print(f"{sentense.keys()} :{user} : {similarity_percentage}")
+                print(f"{sentense.keys()} :{user} : {similarity_score}")
                 # print(f"{sentense.keys()} :{user} : {corr__}")
                 # print(f"{sentense.keys()} :{user} : {corr}")
             max_corr_dict[f"{list(sentense.keys())[0]}"] = max_corr_for_each_sent
@@ -402,7 +422,7 @@ class MyWindow(QMainWindow):
                 # print(f"{user.keys()} :{user} : {corr__}")
                 # print(f"{user.keys()} :{user} : {corr}")
             max_corr_dict[f"{list(user.keys())[0]}"] = max_corr_for_each_user
-
+            mean = np.mean(corr_arr)
             # print(f":{user} : {tot_corr / num}")
             print(f"max = {max_corr_for_each_user}")
             print("_________")
@@ -451,8 +471,8 @@ class MyWindow(QMainWindow):
         print(self.who_can_access)
 
 
-    def print_access_or_denied(self , max_sent ,sent, max_user ,who): #print if the user is allowed to access or not 
-        if max_sent > 0.70 and max_user > 0.4  and who in self.who_can_access:
+    def print_access_or_denied(self , max_sent ,sent, max_user ,who): #print if the user is allowed to access or not    
+        if max_sent > 0.70 and max_user > 0.4  and who in self.who_can_access :
             self.ui.lbl_access.setText(f'<font color="green">wlecome {who}</font>')
             
 

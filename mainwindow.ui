@@ -501,87 +501,6 @@ background-color: rgb(226, 241, 255); /* Set the background color */
 </string>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="1">
-        <spacer name="verticalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="0">
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="9" column="1">
-        <widget class="QLabel" name="lbl_access">
-         <property name="text">
-          <string>access</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="2">
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>choose who can acess:</string>
-         </property>
-        </widget>
-       </item>
        <item row="10" column="1">
         <spacer name="verticalSpacer_6">
          <property name="orientation">
@@ -597,6 +516,32 @@ background-color: rgb(226, 241, 255); /* Set the background color */
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="5" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>90</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="9" column="1">
+        <widget class="QLabel" name="lbl_access">
+         <property name="text">
+          <string>access</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
        <item row="7" column="1">
         <widget class="QPushButton" name="btn_record">
@@ -646,8 +591,40 @@ QPushButton::pressed
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
-        <spacer name="verticalSpacer_2">
+       <item row="3" column="0">
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="2">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <spacer name="verticalSpacer_5">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -657,7 +634,7 @@ QPushButton::pressed
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>90</height>
+           <height>40</height>
           </size>
          </property>
         </spacer>
@@ -678,6 +655,29 @@ QPushButton::pressed
          </property>
         </spacer>
        </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>choose who can acess:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item row="3" column="1">
         <layout class="QGridLayout" name="gridLayout">
          <property name="horizontalSpacing">
@@ -686,6 +686,23 @@ QPushButton::pressed
          <property name="verticalSpacing">
           <number>20</number>
          </property>
+         <item row="0" column="2">
+          <widget class="QCheckBox" name="chkBox_sara">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="lbl_acess_user_8">
+           <property name="text">
+            <string>Hesham</string>
+           </property>
+          </widget>
+         </item>
          <item row="5" column="0">
           <widget class="QLabel" name="lbl_acess_user_6">
            <property name="text">
@@ -693,17 +710,13 @@ QPushButton::pressed
            </property>
           </widget>
          </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="lbl_acess_user_7">
+         <item row="3" column="2">
+          <widget class="QCheckBox" name="chkBox_amir">
            <property name="text">
-            <string>Ahmed</string>
+            <string/>
            </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="lbl_acess_user_3">
-           <property name="text">
-            <string>Yasmeen</string>
+           <property name="checked">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -721,6 +734,13 @@ QPushButton::pressed
            </property>
           </widget>
          </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="lbl_acess_user_2">
+           <property name="text">
+            <string>Reem</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="lbl_acess_user_1">
            <property name="styleSheet">
@@ -731,31 +751,21 @@ QPushButton::pressed
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="lbl_acess_user_2">
+         <item row="2" column="0">
+          <widget class="QLabel" name="lbl_acess_user_3">
            <property name="text">
-            <string>Reem</string>
+            <string>Yasmeen</string>
            </property>
           </widget>
          </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="lbl_acess_user_8">
+         <item row="6" column="0">
+          <widget class="QLabel" name="lbl_acess_user_7">
            <property name="text">
-            <string>Hesham</string>
+            <string>Ahmed</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="chkBox_sara">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
+         <item row="5" column="2">
           <widget class="QCheckBox" name="chkBox_osama">
            <property name="text">
             <string/>
@@ -765,37 +775,7 @@ QPushButton::pressed
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QCheckBox" name="chkBox_mahmoud">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="chkBox_amir">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QCheckBox" name="chkBox_yasmeen">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
+         <item row="1" column="2">
           <widget class="QCheckBox" name="chkBox_reem">
            <property name="text">
             <string/>
@@ -805,8 +785,8 @@ QPushButton::pressed
            </property>
           </widget>
          </item>
-         <item row="6" column="1">
-          <widget class="QCheckBox" name="chkBox_hesham">
+         <item row="4" column="2">
+          <widget class="QCheckBox" name="chkBox_mahmoud">
            <property name="text">
             <string/>
            </property>
@@ -815,8 +795,28 @@ QPushButton::pressed
            </property>
           </widget>
          </item>
-         <item row="7" column="1">
+         <item row="2" column="2">
+          <widget class="QCheckBox" name="chkBox_yasmeen">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="2">
           <widget class="QCheckBox" name="chkBox_ahmed">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="2">
+          <widget class="QCheckBox" name="chkBox_hesham">
            <property name="text">
             <string/>
            </property>
@@ -1195,13 +1195,7 @@ QPushButton::pressed
  </widget>
  <tabstops>
   <tabstop>chkBox_sara</tabstop>
-  <tabstop>chkBox_osama</tabstop>
-  <tabstop>chkBox_mahmoud</tabstop>
   <tabstop>chkBox_amir</tabstop>
-  <tabstop>chkBox_yasmeen</tabstop>
-  <tabstop>chkBox_reem</tabstop>
-  <tabstop>chkBox_hesham</tabstop>
-  <tabstop>chkBox_ahmed</tabstop>
   <tabstop>btn_record</tabstop>
  </tabstops>
  <resources/>
